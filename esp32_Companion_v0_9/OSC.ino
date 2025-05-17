@@ -62,7 +62,7 @@ void receive_C1(OSCMessage &rcvmsg) {
       if (debug) Serial.print(str);
       lcd.setCursor(0, 3);
       lcd.print(str);
-      lcd.print("    ");
+      lcd.print("          ");
     }
   }
   if (debug) Serial.println();
@@ -83,7 +83,7 @@ void receive_C2(OSCMessage &rcvmsg) {
       if (debug) Serial.print(str);
       lcd.setCursor(0, 3);
       lcd.print(str);
-      lcd.print("    ");
+      lcd.print("         ");
     }
   }
   if (debug) Serial.println();
@@ -102,7 +102,7 @@ void receive_C3(OSCMessage &rcvmsg) {
       if (debug) Serial.print(str);
       lcd.setCursor(0, 3);
       lcd.print(str);
-      lcd.print("    ");
+      lcd.print("         ");
     }
   }
   if (debug) Serial.println();
@@ -121,7 +121,7 @@ void receive_C4(OSCMessage &rcvmsg) {
       if (debug) Serial.print(str);
       lcd.setCursor(0, 3);
       lcd.print(str);
-      lcd.print("    ");
+      lcd.print("         ");
     }
   }
   if (debug) Serial.println();
@@ -140,7 +140,7 @@ void receive_C5(OSCMessage &rcvmsg) {
       if (debug) Serial.print(str);
       lcd.setCursor(0, 3);
       lcd.print(str);
-      lcd.print("    ");
+      lcd.print("         ");
     }
   }
   if (debug) Serial.println();
@@ -159,7 +159,7 @@ void receive_C6(OSCMessage &rcvmsg) {
       if (debug) Serial.print(str);
       lcd.setCursor(0, 3);
       lcd.print(str);
-      lcd.print("    ");
+      lcd.print("         ");
     }
   }
   if (debug) Serial.println();

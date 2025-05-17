@@ -111,10 +111,7 @@ int page = 1;
 
 // clang-format off
 MENU_SCREEN(mainScreen, mainItems,
-    //ITEM_INPUT_CHARSET("User", (const char*)"ABCDEFGHIJKLMNOPQRSTUVWXYZ", inputCallback),
-    //ITEM_LIST("Camera", cameras, [](const uint8_t camera) { Serial.println(cameras[camera]); }),
-    ITEM_LIST("Modus", modus, [](const uint8_t mod) { 
-      
+    ITEM_LIST("Modus", modus, [](const uint8_t mod) {      
       if (mod == 0 )toggleIris();
       if (mod == 1 )toggleGain();
       if (mod == 2 )toggleWB();
@@ -131,10 +128,10 @@ LcdMenu menu(renderer);
 SimpleRotary encoder(25, 26, 27);
 SimpleRotaryAdapter rotaryInput(&menu, &encoder);  // Rotary input adapter
 
-Button upBtn(33);
-ButtonAdapter upBtnA(&menu, &upBtn, UP);
-Button downBtn(32);
-ButtonAdapter downBtnA(&menu, &downBtn, DOWN);
+Button enterBtn(33);
+ButtonAdapter enterBtnA(&menu, &enterBtn, ENTER);
+Button backBtn(32);
+ButtonAdapter backBtnA(&menu, &backBtn, BACK);
 
 OSCMessage msgPress("");
 OSCMessage msgRotLeft("");
@@ -421,12 +418,14 @@ if(debug){
   Serial.print("Companion IP: ");
   Serial.println(outIp);
 }
+
 lcd.setCursor(0,3);
 lcd.print(outIp);
 lcd.print(" ");
 lcd.print(outPort);
 
 delay(2000);
+
 setupMenu(); 
 menu.setScreen(mainScreen);
  
@@ -434,8 +433,8 @@ menu.setScreen(mainScreen);
 
 void loop() {
   wm.process();
-  upBtnA.observe();
-  downBtnA.observe();
+  enterBtnA.observe();
+  backBtnA.observe();
   rotaryInput.observe();
   checkEncoders_Buttons();
   checkOSC_Receive();
