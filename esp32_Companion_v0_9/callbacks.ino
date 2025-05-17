@@ -25,25 +25,47 @@ void onEncoderButtonPressed(uint8_t id) {
 }
 
 void onMCP2ButtonPressed(uint8_t id) {
-  if(debug)Serial.printf("MCP2 Button %d pressed\n", id);
+  //if(debug)Serial.printf("MCP2 Button %d pressed\n", id);
   switch (id){
   case 0:
-  //if(setIris) sendOSC_C1_Iris_Press();
-  //if(setGain) sendOSC_C1_Gain_Press();
-  //if(setWB) sendOSC_C1_WB_Press();
+  msgPress=msgC1_R5_press;
+  sendOSC_Press();
+  break;
+  case 1:
+  msgPress=msgC2_R5_press;
+  sendOSC_Press();
+  break;
+   case 2:
+  msgPress=msgC2_R5_press;
+  sendOSC_Press();
+  break;
+   case 3:
+  msgPress=msgC2_R5_press;
+  sendOSC_Press();
+  break;
+   case 4:
+  msgPress=msgC2_R5_press;
+  sendOSC_Press();
+  break;
+   case 5:
+  msgPress=msgC2_R5_press;
+  sendOSC_Press();
+  break;
+  default:
   break;
   }
   
   //lcd.clear();
-  lcd.setCursor(0,0);
-  lcd.print(" Camera:");
-  lcd.setCursor(8,0);
-  lcd.print(id+1);
-  lcd.setCursor(10,0);
-  lcd.print("Actual");
-
+  //lcd.setCursor(0,0);
+  //lcd.print(" Camera:");
+  //lcd.setCursor(8,0);
+  //lcd.print(id+1);
+  //lcd.setCursor(10,0);
+  //lcd.print("Actual");
+  
+delay(100);
   for (uint8_t i = 0; i < NUM_BUTTONS; i++) {
-    mcp2.digitalWrite(mcp2LEDPins[i], (i == id) ? HIGH : LOW);
+    //mcp2.digitalWrite(mcp2LEDPins[i], (i == id) ? HIGH : LOW);
   }
 }
 
@@ -99,7 +121,7 @@ setFocus = true;
 setZoom = false;
 if(debug)Serial.println("Focus mode");
 lcd.setCursor(0,2);
-lcd.print("Focus mode.   ");
+lcd.print("Focus mode   ");
 }
 
 void toggleZoom(){
@@ -110,7 +132,7 @@ setFocus = false;
 setZoom = true;
 if(debug)Serial.println("Zoom mode");
 lcd.setCursor(0,2);
-lcd.print("Zoom mode.    ");
+lcd.print("Zoom mode    ");
 }
 
 

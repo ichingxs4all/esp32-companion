@@ -6,9 +6,6 @@
 WiFiManager wm;
 WiFiManagerParameter custom_ipaddress("companion_ip", "companion IP", "", 15, "pattern='\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}'");  // custom input attrs (ip mask)
 
-//WiFiManagerParameter custom_mqtt_server("server", "mqtt server", "", 40);
-
-
 
 #include <WiFiUdp.h>
 #include <OSCMessage.h>
@@ -44,7 +41,6 @@ const unsigned int localPort = 8888;  // local port to listen for OSC packets (a
 #define LCD_ENCB 26
 #define LCD_ENCSW 27
 
-//LiquidCrystal_I2C lcd(0x27,LCD_COLS,LCD_ROWS);  // set the LCD address to 0x27 for a 20chars and 4 line display
 
 Adafruit_MCP23X17 mcp1; // Encoders
 Adafruit_MCP23X17 mcp2; // Buttons + LEDs
@@ -52,7 +48,7 @@ Adafruit_MCP23X17 mcp2; // Buttons + LEDs
 // === CONFIGURATION ===
 const uint8_t MCP1_INT_PIN = 34; // INT from mcp1
 const uint8_t MCP2_INT_PIN = 35; // INT from mcp2
-const unsigned long DEBOUNCE_DELAY_MS = 5;
+const unsigned long DEBOUNCE_DELAY_MS = 10;
 
 // === MCP1: Encoders ===
 const uint8_t NUM_ENCODERS = 5;
@@ -124,8 +120,8 @@ MENU_SCREEN(mainScreen, mainItems,
       if (mod == 2 )toggleWB();
       if (mod == 3 )toggleFocus();
       if (mod == 4 )toggleZoom();
-      }),
-    ITEM_TOGGLE("Backlight", toggleBacklight));
+      }));
+    //ITEM_TOGGLE("Backlight", toggleBacklight));
 // clang-format on
 
 LiquidCrystal_I2C lcd(0x27, LCD_COLS, LCD_ROWS);
@@ -181,6 +177,10 @@ OSCMessage msgC1_R6_press("/location/1/6/1/press");
 OSCMessage msgC1_R6_rotLeft("/location/1/6/1/rotate-left");
 OSCMessage msgC1_R6_rotRight("/location/1/6/1/rotate-right");
 
+//Row 7
+OSCMessage msgC1_R7_press("/location/1/7/1/press");
+OSCMessage msgC1_R7_rotLeft("/location/1/7/1/rotate-left");
+OSCMessage msgC1_R7_rotRight("/location/1/7/1/rotate-right");
 
 
 
@@ -220,6 +220,11 @@ OSCMessage msgC2_R6_press("/location/1/6/2/press");
 OSCMessage msgC2_R6_rotLeft("/location/1/6/2/rotate-left");
 OSCMessage msgC2_R6_rotRight("/location/1/6/2/rotate-right");
 
+//Row 7
+OSCMessage msgC2_R7_press("/location/1/7/2/press");
+OSCMessage msgC2_R7_rotLeft("/location/1/7/2/rotate-left");
+OSCMessage msgC2_R7_rotRight("/location/1/7/2/rotate-right");
+
 //---Column 3 -------------------------------------------
 //Row 0
 OSCMessage msgC3_R0_press("/location/1/0/3/press");
@@ -255,6 +260,11 @@ OSCMessage msgC3_R5_rotRight("/location/1/5/3/rotate-right");
 OSCMessage msgC3_R6_press("/location/1/6/3/press");
 OSCMessage msgC3_R6_rotLeft("/location/1/6/3/rotate-left");
 OSCMessage msgC3_R6_rotRight("/location/1/6/3/rotate-right");
+
+//Row 7
+OSCMessage msgC3_R7_press("/location/1/7/3/press");
+OSCMessage msgC3_R7_rotLeft("/location/1/7/3/rotate-left");
+OSCMessage msgC3_R7_rotRight("/location/1/7/3/rotate-right");
 
 
 //---Column 4 -------------------------------------------
@@ -293,6 +303,11 @@ OSCMessage msgC4_R6_press("/location/1/6/4/press");
 OSCMessage msgC4_R6_rotLeft("/location/1/6/4/rotate-left");
 OSCMessage msgC4_R6_rotRight("/location/1/6/4/rotate-right");
 
+//Row 7
+OSCMessage msgC4_R7_press("/location/1/7/4/press");
+OSCMessage msgC4_R7_rotLeft("/location/1/7/4/rotate-left");
+OSCMessage msgC4_R7_rotRight("/location/1/7/4/rotate-right");
+
 //---Column 5 -------------------------------------------
 //Row 0
 OSCMessage msgC5_R0_press("/location/1/0/5/press");
@@ -328,6 +343,11 @@ OSCMessage msgC5_R5_rotRight("/location/1/5/5/rotate-right");
 OSCMessage msgC5_R6_press("/location/1/6/5/press");
 OSCMessage msgC5_R6_rotLeft("/location/1/6/5/rotate-left");
 OSCMessage msgC5_R6_rotRight("/location/1/6/5/rotate-right");
+
+//Row 7
+OSCMessage msgC5_R7_press("/location/1/7/5/press");
+OSCMessage msgC5_R7_rotLeft("/location/1/7/5/rotate-left");
+OSCMessage msgC5_R7_rotRight("/location/1/7/5/rotate-right");
 
 //---Column 6 -------------------------------------------
 //Row 0
@@ -365,11 +385,14 @@ OSCMessage msgC6_R6_press("/location/1/6/6/press");
 OSCMessage msgC6_R6_rotLeft("/location/1/6/6/rotate-left");
 OSCMessage msgC6_R6_rotRight("/location/1/6/6/rotate-right");
 
-void setup() {
+//Row 7
+OSCMessage msgC6_R7_press("/location/1/7/6/press");
+OSCMessage msgC6_R7_rotLeft("/location/1/7/6/rotate-left");
+OSCMessage msgC6_R7_rotRight("/location/1/7/6/rotate-right");
 
+void setup() {
 setupLCD();
 setupWIFI();
-setupMenu();
 setupEncoders_Buttons();
 
 if(debug){
@@ -391,16 +414,20 @@ if(debug)Serial.print("Local port: ");
   if(debug)Serial.println(Udp.localPort());
 #endif
 
-lcd.setCursor(0,1);
-lcd.print("OSC UDP started on" + localPort);
+lcd.setCursor(0,2);
+lcd.print("OSC UDP started on");
 
 if(debug){
   Serial.print("Companion IP: ");
-  Serial.println(custom_ipaddress.getValue());
+  Serial.println(outIp);
 }
-  
+lcd.setCursor(0,3);
+lcd.print(outIp);
+lcd.print(" ");
+lcd.print(outPort);
+
 delay(2000);
-  
+setupMenu(); 
 menu.setScreen(mainScreen);
  
 }

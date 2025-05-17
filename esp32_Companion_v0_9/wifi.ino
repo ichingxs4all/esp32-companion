@@ -12,9 +12,9 @@ void connectWIFI(){
     //If connection fails it starts an access point with the specified name
     if(wm.autoConnect("AutoConnectAP")){
         if(debug)Serial.println("connected...yeey :)");
-        lcd.clear();
-        lcd.setCursor(0,0);
-        lcd.print("WiFi connected !");
+        //lcd.clear();
+        lcd.setCursor(0,2);
+        lcd.print("WiFi connected    ");
         delay(1000);
     }
     else {

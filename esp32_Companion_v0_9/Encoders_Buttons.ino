@@ -3,7 +3,7 @@ void setupEncoders_Buttons(){
   // === MCP1 SETUP ===
   if (!mcp1.begin_I2C(0x20)) {
     if(debug)Serial.println("MCP1 not found!");
-    lcd.setCursor(0,0);
+    lcd.setCursor(0,2);
     lcd.print("MCP1 not found!");
     while (1);
   }
@@ -27,7 +27,7 @@ void setupEncoders_Buttons(){
   // === MCP2 SETUP ===
   if (!mcp2.begin_I2C(0x21)) {
     if(debug)Serial.println("MCP2 not found!");
-    lcd.setCursor(0,1);
+    lcd.setCursor(0,2);
     lcd.print("MCP2 not found!");
     while (1);
   }
