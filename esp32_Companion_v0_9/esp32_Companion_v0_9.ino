@@ -17,7 +17,7 @@ WiFiUDP Udp;  // A UDP instance to let us send and receive packets over UDP
 
 OSCErrorCode error;
 
-IPAddress outIp(192, 168, 188, 32);  // remote IP of the receiving computer
+IPAddress outIp(192, 168, 50, 111);  // remote IP of the receiving computer
 
 const unsigned int outPort = 12321;       // remote port to send OSC messages to
 const unsigned int localPort = 8888;  // local port to listen for OSC packets (actually not used for sending)
