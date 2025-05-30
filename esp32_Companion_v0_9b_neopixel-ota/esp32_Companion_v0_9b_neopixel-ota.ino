@@ -72,6 +72,9 @@ Adafruit_MCP23X17 mcp2; // Buttons + LEDs
 // Define the array of leds
 Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
+///////////////////////Arduino OTA /////////////////////////////////////////////////////////
+
+#include <ArduinoOTA.h>
 
 // === CONFIGURATION ===
 const uint8_t MCP1_INT_PIN = 34; // INT from mcp1
@@ -443,6 +446,10 @@ OSCMessage msgC6_R8_rotLeft("/location/1/8/6/rotate-left");
 OSCMessage msgC6_R8_rotRight("/location/1/8/6/rotate-right");
 
 void setup() {
+
+// Hostname defaults to esp3232-[MAC]
+ArduinoOTA.setHostname("shader");
+
   if(debug){
  Serial.begin(115200);
  Serial.flush();
@@ -456,6 +463,7 @@ setupEncoders_Buttons();
 connectWIFI();
 
 delay(2000);
+ArduinoOTA.begin();
 
 if(debug)Serial.println("Starting UDP");
 Udp.begin(localPort);
@@ -488,6 +496,7 @@ clearAllLeds();
 }
 
 void loop() {
+  ArduinoOTA.handle();
   wm.process();
   enterBtnA.observe();
   backBtnA.observe();
