@@ -32,6 +32,7 @@ const unsigned int localPort = 8888;  // local port to listen for OSC packets (a
 #include <ItemInputCharset.h>
 #include <ItemList.h>
 #include <ItemToggle.h>
+#include <ItemSubMenu.h>
 #include <LcdMenu.h>
 #include <MenuScreen.h>
 #include <SimpleRotary.h>
@@ -39,6 +40,9 @@ const unsigned int localPort = 8888;  // local port to listen for OSC packets (a
 #include <input/ButtonAdapter.h>
 #include <input/SimpleRotaryAdapter.h>
 #include <renderer/CharacterDisplayRenderer.h>
+
+
+extern MenuScreen* settingsScreen;
 
 #define LCD_ROWS 4
 #define LCD_COLS 20
@@ -138,6 +142,7 @@ int page = 1;
 
 // clang-format off
 MENU_SCREEN(mainScreen, mainItems,
+    ITEM_SUBMENU("Settings", settingsScreen),
     ITEM_LIST("Modus", modus, [](const uint8_t mod) {      
       if (mod == 0 )toggleIris();
       if (mod == 1 )toggleGain();
@@ -147,6 +152,12 @@ MENU_SCREEN(mainScreen, mainItems,
       }));
     //ITEM_TOGGLE("Backlight", toggleBacklight));
 // clang-format on
+
+// Create submenu and precise its parent
+MENU_SCREEN(settingsScreen, settingsItems,
+    ITEM_BASIC("Backlight"),
+    ITEM_BASIC("Companion IP"));
+
 
 LiquidCrystal_I2C lcd(0x27, LCD_COLS, LCD_ROWS);
 LiquidCrystal_I2CAdapter lcdAdapter(&lcd);
