@@ -23,7 +23,8 @@ WiFiUDP Udp;  // A UDP instance to let us send and receive packets over UDP
 
 OSCErrorCode error;
 
-IPAddress outIp(192, 168, 188, 32);  // remote IP of the receiving computer
+//IPAddress outIp(192, 168, 188, 32);  // remote IP of the receiving computer
+IPAdress outIp;
 IPAddress _ip;
 
 
