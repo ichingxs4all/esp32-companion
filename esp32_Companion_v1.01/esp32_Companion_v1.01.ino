@@ -527,8 +527,8 @@ void loop() {
 
 void setServerIp() {
   preferences.begin("server_prefs", false);
-  ip_addr = preferences.getUInt("server_ip", 549234880);
-  _ip = ip_addr;
+  ip_addr = preferences.getUInt("server_ip", 549234880); //Defaults to 192.168.188.32
+  _ip = ip_addr; //convert IPAddress to integer
   outIp =_ip;
   if(debug)Serial.println(String("IP address is : ") + outIp[0] + String(". ") + outIp[1] + String(". ") + outIp[2] + String(". ") + outIp[3]);
   preferences.end();
