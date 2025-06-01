@@ -1,17 +1,23 @@
 bool debug = false;
+bool WMRESET = false;
 const int version = 1;
 
 ////////////////////////// Preferences ESP32 /////////////////////////////////////////
 #include <Preferences.h>
-Preferences prefs;
+Preferences preferences;
 
 //////////////////////// Wifi Manager library/////////////////////////////////////////
 #include <WiFiManager.h> // https://github.com/tzapu/WiFiManager
 
 WiFiManager wm;
-WiFiManagerParameter custom_ipaddress("companion_ip", "companion IP", "", 15, "pattern='\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}'");  // custom input attrs (ip mask)
+//WiFiManagerParameter custom_ipaddress("companion_ip", "companion IP", "", 15, "pattern='\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}'");  // custom input attrs (ip mask)
+WiFiManagerParameter custom_server("server", "server", "", 40);
 
-bool WMRESET = false;
+IPAddress _ip;
+uint32_t ip_addr;
+char server[40];
+
+
 /////////////////////////// OSC library CNMAT //////////////////////////////////////
 
 #include <WiFiUdp.h>
@@ -24,8 +30,7 @@ WiFiUDP Udp;  // A UDP instance to let us send and receive packets over UDP
 OSCErrorCode error;
 
 //IPAddress outIp(192, 168, 188, 32);  // remote IP of the receiving computer
-IPAdress outIp;
-IPAddress _ip;
+IPAddress outIp; 
 
 
 const unsigned int outPort = 12321;       // remote port to send OSC messages to
@@ -478,8 +483,7 @@ connectWIFI();
 
 delay(2000);
 
-uint32_t ip_addr = (uint32_t) outIp;
-  _ip = ip_addr;
+setServerIp();
 
 if(debug)Serial.println("Starting UDP");
 Udp.begin(localPort);
@@ -521,21 +525,28 @@ void loop() {
   checkOSC_Receive();
 }
 
-void saveParamsCallback() {
-  if(debug){
-  Serial.println("Get Params:");
-  Serial.print(custom_ipaddress.getID());
-  Serial.print(" : ");
-  Serial.println(custom_ipaddress.getValue());
-  
-  preferences.begin("companion_prefs", false);
-  preferences.putUInt("companion_ip", _companion_ip);
+void setServerIp() {
+  preferences.begin("server_prefs", false);
+  ip_addr = preferences.getUInt("server_ip", 549234880);
+  _ip = ip_addr;
+  outIp =_ip;
+  if(debug)Serial.println(String("IP address is : ") + outIp[0] + String(". ") + outIp[1] + String(". ") + outIp[2] + String(". ") + outIp[3]);
   preferences.end();
-  }
+}
+
+void saveParamsCallback() {
+  preferences.begin("server_prefs", false);
+  strcpy(server, custom_server.getValue());
+  IPAddress _ip;
+  _ip.fromString(server);
+  ip_addr = (uint32_t)_ip;
+  if(debug)Serial.println(ip_addr);
+  preferences.putUInt("server_ip", ip_addr);
+  preferences.end(); 
 }
 
 void checkResetConfig(){
   pinMode(LCD_ENTER_BTN , INPUT_PULLUP);
   if(digitalRead(LCD_ENTER_BTN)== 0) WMRESET = true;
-  Serial.println("Reset Wifi settings");
+  if(debug)Serial.println("Reset Wifi settings");
 }
