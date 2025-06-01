@@ -17,7 +17,9 @@ void connectWIFI(){
         //lcd.clear();
         lcd.setCursor(0,2);
         lcd.print("WiFi connected    ");
-        delay(1000);
+        lcd.setCursor(0,3);
+        lcd.print(WiFi.localIP());
+        delay(2000);
         ArduinoOTA.begin();
     }
     else {
