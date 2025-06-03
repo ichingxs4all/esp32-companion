@@ -183,24 +183,11 @@ void receive_C1_tally_PRG(OSCMessage &rcvmsg) {
     if (length < 16) {
       char str[length];
       rcvmsg.getString(0, str, length);
-     
-      if (length == 4) {
-        setLedBlack(0);
-        if (debug) Serial.println("Camera 1 tally OFF");
-      }
-
-      if (length == 5) {
-        setLedRed(0);
-        if (debug) Serial.println("Camera 1 tally PROG");
-      }
-
-      if (length == 6) {
-        setLedBlack(0);
-        if (debug) Serial.println("Camera 1 tally PREVW");
-      }
+      if (strcmp(str, "false") == 0) bitClear(tally_status[0], 0);
+      if (strcmp(str, "true") == 0) bitSet(tally_status[0], 0);
+      setTallyLeds();
     }
   }
-  if (debug) Serial.println();
 }
 
 void receive_C2_tally_PRG(OSCMessage &rcvmsg) {
@@ -209,25 +196,11 @@ void receive_C2_tally_PRG(OSCMessage &rcvmsg) {
     if (length < 16) {
       char str[length];
       rcvmsg.getString(0, str, length);
-     
-      if (length == 4) {
-        setLedBlack(1);
-        if (debug) Serial.println("Camera 2 tally OFF");
-      }
-
-      if (length == 5) {
-        setLedRed(1);
-        if (debug) Serial.println("Camera 2 tally PROG");
-      }
-
-      if (length == 6) {
-        setLedBlack(1);
-        if (debug) Serial.println("Camera 2 tally PREVW");
-      }
-
+      if (strcmp(str, "false") == 0) bitClear(tally_status[1], 0);    // return number & ~((Uint)1 << n);
+      if (strcmp(str, "true") == 0) bitSet(tally_status[1], 0);       //return number | ((Uint)1 << n);
+      setTallyLeds();
     }
   }
-  if (debug) Serial.println();
 }
 
 void receive_C3_tally_PRG(OSCMessage &rcvmsg) {
@@ -236,25 +209,11 @@ void receive_C3_tally_PRG(OSCMessage &rcvmsg) {
     if (length < 16) {
       char str[length];
       rcvmsg.getString(0, str, length);
-     
-      if (length == 4) {
-        setLedBlack(2);
-        if (debug) Serial.println("Camera 3 tally OFF");
-      }
-
-      if (length == 5) {
-        setLedRed(2);
-        if (debug) Serial.println("Camera 3 tally PROG");
-      }
-
-      if (length == 6) {
-        setLedBlack(2);
-        if (debug) Serial.println("Camera 3 tally PREVW");
-      }
-
+      if (strcmp(str, "false") == 0) bitClear(tally_status[2], 0);
+      if (strcmp(str, "true") == 0) bitSet(tally_status[2], 0);
+      setTallyLeds();
     }
   }
-  if (debug) Serial.println();
 }
 
 void receive_C4_tally_PRG(OSCMessage &rcvmsg) {
@@ -263,24 +222,11 @@ void receive_C4_tally_PRG(OSCMessage &rcvmsg) {
     if (length < 16) {
       char str[length];
       rcvmsg.getString(0, str, length);
-     
-      if (length == 4) {
-        setLedBlack(3);
-        if (debug) Serial.println("Camera 4 tally OFF");
-      }
-
-      if (length == 5) {
-        setLedRed(3);
-        if (debug) Serial.println("Camera 4 tally PROG");
-      }
-
-      if (length == 6) {
-        setLedBlack(3);
-        if (debug) Serial.println("Camera 4 tally PREVW");
-      }
+      if (strcmp(str, "false") == 0) bitClear(tally_status[3], 0);
+      if (strcmp(str, "true") == 0) bitSet(tally_status[3], 0);
+      setTallyLeds();
     }
   }
-  if (debug) Serial.println();
 }
 
 void receive_C5_tally_PRG(OSCMessage &rcvmsg) {
@@ -289,24 +235,11 @@ void receive_C5_tally_PRG(OSCMessage &rcvmsg) {
     if (length < 16) {
       char str[length];
       rcvmsg.getString(0, str, length);
-     
-      if (length == 4) {
-        setLedBlack(4);
-        if (debug) Serial.println("Camera 5 tally OFF");
-      }
-
-      if (length == 5) {
-        setLedRed(4);
-        if (debug) Serial.println("Camera 5 tally PROG");
-      }
-
-      if (length == 6) {
-        setLedBlack(4);
-        if (debug) Serial.println("Camera 5 tally PREVW");
-      }
+      if (strcmp(str, "false") == 0) bitClear(tally_status[4], 0);
+      if (strcmp(str, "true") == 0) bitSet(tally_status[4], 0);
+      setTallyLeds();
     }
   }
-  if (debug) Serial.println();
 }
 
 void receive_C6_tally_PRG(OSCMessage &rcvmsg) {
@@ -315,24 +248,11 @@ void receive_C6_tally_PRG(OSCMessage &rcvmsg) {
     if (length < 16) {
       char str[length];
       rcvmsg.getString(0, str, length);
-     
-      if (length == 4) {
-        setLedBlack(5);
-        if (debug) Serial.println("Camera 6 tally OFF");
-      }
-
-      if (length == 5) {
-        setLedRed(5);
-        if (debug) Serial.println("Camera 6 tally PROG");
-      }
-
-      if (length == 6) {
-        setLedBlack(5);
-        if (debug) Serial.println("Camera 6 tally PREVW");
-      }
+      if (strcmp(str, "false") == 0) bitClear(tally_status[5], 0);
+      if (strcmp(str, "true") == 0) bitSet(tally_status[5], 0);
+      setTallyLeds();
     }
   }
-  if (debug) Serial.println();
 }
 
 ////////////////// Tally PRV /////////////////////////
@@ -343,25 +263,13 @@ void receive_C1_tally_PRV(OSCMessage &rcvmsg) {
     if (length < 16) {
       char str[length];
       rcvmsg.getString(0, str, length);
-     
-      if (length == 4) {
-        setLedBlack(0);
-        if (debug) Serial.println("Camera 1 tally OFF");
-      }
-
-      if (length == 5) {
-        setLedGreen(0);
-        if (debug) Serial.println("Camera 1 tally PROG");
-      }
-
-      if (length == 6) {
-        setLedBlack(0);
-        if (debug) Serial.println("Camera 1 tally PREVW");
-      }
+      if (strcmp(str, "false") == 0) bitClear(tally_status[0], 1);
+      if (strcmp(str, "true") == 0) bitSet(tally_status[0], 1);
+      setTallyLeds();
     }
   }
-  if (debug) Serial.println();
 }
+
 
 void receive_C2_tally_PRV(OSCMessage &rcvmsg) {
   if (rcvmsg.isString(0)) {
@@ -369,25 +277,11 @@ void receive_C2_tally_PRV(OSCMessage &rcvmsg) {
     if (length < 16) {
       char str[length];
       rcvmsg.getString(0, str, length);
-     
-      if (length == 4) {
-        setLedBlack(1);
-        if (debug) Serial.println("Camera 2 tally OFF");
-      }
-
-      if (length == 5) {
-        setLedGreen(1);
-        if (debug) Serial.println("Camera 2 tally PROG");
-      }
-
-      if (length == 6) {
-        setLedBlack(1);
-        if (debug) Serial.println("Camera 2 tally PREVW");
-      }
-
+      if (strcmp(str, "false") == 0) bitClear(tally_status[1], 1);
+      if (strcmp(str, "true") == 0) bitSet(tally_status[1], 1);
+      setTallyLeds();
     }
   }
-  if (debug) Serial.println();
 }
 
 void receive_C3_tally_PRV(OSCMessage &rcvmsg) {
@@ -396,26 +290,13 @@ void receive_C3_tally_PRV(OSCMessage &rcvmsg) {
     if (length < 16) {
       char str[length];
       rcvmsg.getString(0, str, length);
-     
-      if (length == 4) {
-        setLedBlack(2);
-        if (debug) Serial.println("Camera 3 tally OFF");
-      }
-
-      if (length == 5) {
-        setLedGreen(2);
-        if (debug) Serial.println("Camera 3 tally PROG");
-      }
-
-      if (length == 6) {
-        setLedBlack(2);
-        if (debug) Serial.println("Camera 3 tally PREVW");
-      }
-
+      if (strcmp(str, "false") == 0) bitClear(tally_status[2], 1);
+      if (strcmp(str, "true") == 0) bitSet(tally_status[2], 1);
+      setTallyLeds();
     }
   }
-  if (debug) Serial.println();
 }
+
 
 void receive_C4_tally_PRV(OSCMessage &rcvmsg) {
   if (rcvmsg.isString(0)) {
@@ -423,24 +304,11 @@ void receive_C4_tally_PRV(OSCMessage &rcvmsg) {
     if (length < 16) {
       char str[length];
       rcvmsg.getString(0, str, length);
-     
-      if (length == 4) {
-        setLedBlack(3);
-        if (debug) Serial.println("Camera 4 tally OFF");
-      }
-
-      if (length == 5) {
-        setLedGreen(3);
-        if (debug) Serial.println("Camera 4 tally PROG");
-      }
-
-      if (length == 6) {
-        setLedBlack(3);
-        if (debug) Serial.println("Camera 4 tally PREVW");
-      }
+      if (strcmp(str, "false") == 0) bitClear(tally_status[3], 1);
+      if (strcmp(str, "true") == 0) bitSet(tally_status[3], 1);
+      setTallyLeds();
     }
   }
-  if (debug) Serial.println();
 }
 
 void receive_C5_tally_PRV(OSCMessage &rcvmsg) {
@@ -449,25 +317,13 @@ void receive_C5_tally_PRV(OSCMessage &rcvmsg) {
     if (length < 16) {
       char str[length];
       rcvmsg.getString(0, str, length);
-     
-      if (length == 4) {
-        setLedBlack(4);
-        if (debug) Serial.println("Camera 5 tally OFF");
-      }
-
-      if (length == 5) {
-        setLedGreen(4);
-        if (debug) Serial.println("Camera 5 tally PROG");
-      }
-
-      if (length == 6) {
-        setLedBlack(4);
-        if (debug) Serial.println("Camera 5 tally PREVW");
-      }
+      if (strcmp(str, "false") == 0) bitClear(tally_status[4], 1);
+      if (strcmp(str, "true") == 0) bitSet(tally_status[4], 1);
+      setTallyLeds();
     }
   }
-  if (debug) Serial.println();
 }
+
 
 void receive_C6_tally_PRV(OSCMessage &rcvmsg) {
   if (rcvmsg.isString(0)) {
@@ -475,41 +331,49 @@ void receive_C6_tally_PRV(OSCMessage &rcvmsg) {
     if (length < 16) {
       char str[length];
       rcvmsg.getString(0, str, length);
-     
-      if (length == 4) {
-        setLedBlack(5);
-        if (debug) Serial.println("Camera 6 tally OFF");
-      }
-
-      if (length == 5) {
-        setLedGreen(5);
-        if (debug) Serial.println("Camera 6 tally PROG");
-      }
-
-      if (length == 6) {
-        setLedBlack(5);
-        if (debug) Serial.println("Camera 6 tally PREVW");
-      }
+      if (strcmp(str, "false") == 0) bitClear(tally_status[5], 1);
+      if (strcmp(str, "true") == 0) bitSet(tally_status[5], 1);
+      setTallyLeds();
     }
   }
-  if (debug) Serial.println();
 }
 
 ///////////////////////////////////////////////////////////
 
-void reset_system(OSCMessage &rcvmsg){
+void reset_system(OSCMessage &rcvmsg) {
   if (rcvmsg.isString(0)) {
-  if(debug)Serial.println("Restart !");
-  ESP.restart();
+    if (debug) Serial.println("Restart !");
+    ESP.restart();
   }
 }
 
-void wifi_reset(OSCMessage &rcvmsg){
+void wifi_reset(OSCMessage &rcvmsg) {
   if (rcvmsg.isString(0)) {
-  if(debug)Serial.println("Reset WiFi settings!");
-  wm.resetSettings();
-  delay(1000);
-  ESP.restart();
+    if (debug) Serial.println("Reset WiFi settings!");
+    wm.resetSettings();
+    delay(1000);
+    ESP.restart();
   }
 }
 
+void setTallyLeds() {
+  for (int i = 0; i < 6; i++) {
+    switch (tally_status[i]) {
+      case 0:
+        setLedBlack(i);
+        break;
+      case 1:
+        setLedRed(i);
+        break;
+      case 2:
+        setLedGreen(i);
+        break;
+      case 4:
+        setLedBlue(i);
+        break;
+      default:
+        setLedBlack(i);
+        break;
+    }
+  }
+}
