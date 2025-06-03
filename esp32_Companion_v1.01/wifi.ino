@@ -2,7 +2,8 @@ void setupWIFI(){
 setLedBlue(2); //Display WIFI manager status on third led
 WiFi.mode(WIFI_STA); // explicitly set mode, esp defaults to STA+AP  
 if(WMRESET) wm.resetSettings();
-wm.addParameter(&custom_ipaddress);
+//wm.addParameter(&custom_ipaddress);
+wm.addParameter(&custom_server);
 wm.setConfigPortalBlocking(false);
 wm.setConfigPortalTimeout(60);
 wm.setSaveParamsCallback(saveParamsCallback);
@@ -30,3 +31,4 @@ void connectWIFI(){
         delay(1000);
     }
 }
+
