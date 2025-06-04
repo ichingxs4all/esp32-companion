@@ -6,7 +6,7 @@ lcd.init();                      // initialize the lcd
 lcd.backlight();
 lcd.clear();
 lcd.setCursor(0,0);
-lcd.print("Camera Shader v");
+lcd.print("Camera Shader V ");
 lcd.print(version);
 lcd.setCursor(0,1);
 lcd.print("Setting up WiFi");

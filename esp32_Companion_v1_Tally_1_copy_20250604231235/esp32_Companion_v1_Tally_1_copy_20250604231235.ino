@@ -1,5 +1,5 @@
 bool debug = false;
-const int version = 1;
+const float version = 1.0;
 
 //////////////////////// Wifi Manager library/////////////////////////////////////////
 #include <WiFiManager.h> // https://github.com/tzapu/WiFiManager
